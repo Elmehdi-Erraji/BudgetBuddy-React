@@ -35,25 +35,42 @@ function Login(){
 
     return(
        
-        <div className="container d-flex justify-content-center align-items-center vh-100">
-        <div className="card p-5 shadow" style={{ maxWidth: '1000px' }}>
-          <h1 className="text-center mb-4">Login</h1>
-          <form onSubmit={handleSubmit} style={{ width: '100%' }}>
-            <div className="mb-4">
-              <label htmlFor="email" className="form-label fs-4">Email</label>
-              <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="form-control form-control-lg" />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="password" className="form-label fs-4">Password</label>
-              <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} className="form-control form-control-lg" />
-            </div>
-            <div className="text-center">
-              <button className="btn btn-primary btn-lg" type="submit" style={{ fontSize: '2rem' }}>Login</button>
-            </div>
-          </form>
-        </div>
+      <div className="container d-flex justify-content-center align-items-center vh-100">
+      <div className="card p-5 shadow border-primary" style={{ maxWidth: '800px' }}>
+        <h1 className="text-center mb-4">Login</h1>
+        <form onSubmit={handleSubmit} className="row g-3">
+          <div className="col-md-12">
+            <label htmlFor="email" className="form-label fs-4">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="form-control form-control-lg"
+              placeholder="Enter your email"
+            />
+          </div>
+          <div className="col-md-12">
+            <label htmlFor="password" className="form-label fs-4">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="form-control form-control-lg"
+              placeholder="Enter your password"
+            />
+          </div>
+          <div className="col-md-12 text-center">
+            <button className="btn btn-primary btn-lg" type="submit">
+              Login
+            </button>
+          </div>
+        </form>
       </div>
-      
+    </div>
       
 
     )

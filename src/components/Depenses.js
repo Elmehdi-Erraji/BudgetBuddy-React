@@ -17,16 +17,19 @@ function Depenses() {
     };
 
     return (
-        <div className="card mt-4">
-            <div className="card-header">
-                <h4 className="card-title"> Depenses </h4>
-            </div>
-            <div className="card-body">
-                <div className="text-center">
-                    <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+            <div className="card mt-4">
+                <div className="card-header">
+                    <h4 className="card-title"> Depenses </h4>
+                </div>
+                <div className="card-body">
+                    <div className="text-center">
+                        <button className="btn btn-primary" onClick={handleLogout}>Logout</button>
+                    </div>
                 </div>
             </div>
-        </div>
+
+
+
     );
 }
 

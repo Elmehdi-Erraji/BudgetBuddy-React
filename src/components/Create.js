@@ -29,27 +29,58 @@ function Create() {
             }
         }
     };
+    const handleHomeClick = () => {
+        navigate('/'); 
+      };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="row">
-                <div className="col-sm">
-                    <label>Title</label>
-                    <input type="text" name="title" className="form-control" required />
-                </div>
-                <div className="col-sm">
-                    <label>Description</label>
-                    <input type="text" name="description" className="form-control" required />
-                </div>
-                <div className="col-sm">
-                    <label>Expense</label>
-                    <input type="number" name="expense" className="form-control" required />
-                </div>
-                <div className="col-sm">
-                    <button className="btn btn-primary mt-4" type="submit">Add</button>
-                </div>
-            </div>
+        <div className="container d-flex justify-content-center align-items-center vh-100">
+      <div className="card p-5 shadow border-primary" style={{ maxWidth: '800px' }}>
+        <h2 className="text-center mb-4">Add Expense</h2>
+        <form onSubmit={handleSubmit} className="row g-3">
+          <div className="col-md-12">
+            <label htmlFor="title" className="form-label fs-4">Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              className="form-control form-control-lg"
+              required
+              placeholder="Enter title"
+            />
+          </div>
+          <div className="col-md-12">
+            <label htmlFor="description" className="form-label fs-4">Description</label>
+            <input
+              type="text"
+              id="description"
+              name="description"
+              className="form-control form-control-lg"
+              placeholder="Enter description (optional)"
+            />
+          </div>
+          <div className="col-md-12">
+            <label htmlFor="expense" className="form-label fs-4">Expense</label>
+            <input
+              type="number"
+              id="expense"
+              name="expense"
+              className="form-control form-control-lg"
+              required
+              placeholder="Enter expense amount"
+            />
+          </div>
+          <div className="col-md-12 d-flex justify-content-between">
+            <button className="btn btn-primary btn-lg" type="submit">
+              Add
+            </button>
+            <button className="btn btn-secondary btn-lg" onClick={handleHomeClick}>
+              Home
+            </button>
+          </div>
         </form>
+      </div>
+    </div>
     );
 }
 

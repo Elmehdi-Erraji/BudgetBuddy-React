@@ -37,7 +37,6 @@ function App() {
     return (
         <BrowserRouter>
             <div className='container'>
-                <h1 className='mt-3'>Budget buddy</h1>
                 <Routes>
                     <Route path='/' element={<Homepage depenses={depenses} />} />
                     <Route path='/login' element={<Login />} />

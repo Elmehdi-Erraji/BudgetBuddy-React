@@ -58,45 +58,53 @@ function Index() {
   };
 
   return (
-    <div>
-      <div className="card mt-4">
-        <div className="card-header">
-          <h4 className="card-title"> Depenses </h4>
-        </div>
-        <div className="card-body">
-          <Link to="/create" className="btn btn-primary mb-3">Add Depense</Link>
-          <div className="table-responsive">
-            <table className="table table-bordered table-hover">
-              <thead className="thead-dark">
-                <tr>
-                  <th className="text-center"> Id </th>
-                  <th className="text-center"> Title </th>
-                  <th className="text-center"> Description </th>
-                  <th className="text-center"> Expense </th>
-                  <th className="text-center"> Action </th>
-                </tr>
-              </thead>
-              <tbody>
-                {depenses.map(depense => (
-                  <tr key={depense.id}>
-                    <td className="text-center"> {depense.id} </td>
-                    <td> {depense.title} </td>
-                    <td> {depense.description} </td>
-                    <td className="text-right"> {depense.expense} </td>
-                    <td className="text-center">
-                      <button className="btn btn-info btn-sm mr-2" onClick={() => handleEdit(depense)} data-toggle="modal" data-target="#editModal"> Edit </button>
-                      <span style={{ marginRight: '8px' }}></span>
-                      <button className="btn btn-danger btn-sm" onClick={() => handleDelete(depense.id)}> Delete </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      {editDepense && <Edit depense={editDepense} updateState={handleUpdateDepense} />} {/* Render the edit modal if editDepense is not null */}
+    <div className="card mt-4">
+    <div className="card-header">
+      <h4 className="card-title">Depenses</h4>
     </div>
+    <div className="card-body">
+      <Link to="/create" className="btn btn-primary mb-3">Add Expense</Link>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th className="text-center">Id</th>
+              <th className="text-center">Title</th>
+              <th className="text-center">Description</th>
+              <th className="text-center">Expense</th>
+              <th className="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {depenses.map((depense) => (
+              <tr key={depense.id}>
+                <td className="text-center">{depense.id}</td>
+                <td>{depense.title}</td>
+                <td>{depense.description}</td>
+                <td className="text-right">{depense.expense}</td>
+                <td className="text-center">
+                    <button
+                      className="btn btn-primary btn-sm mr-2"
+                      onClick={() => handleEdit(depense)}
+                    >
+                      Edit
+                    </button>
+                    <span style={{ marginRight: '8px' }}></span>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(depense.id)}
+                    >
+                      Delete
+                    </button>
+                  </td> 
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {/* Your edit modal component goes here */}
+  </div>
   );
 }
 
