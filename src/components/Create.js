@@ -30,7 +30,7 @@ function Create() {
         }
     };
     const handleHomeClick = () => {
-        navigate('/'); 
+        navigate('/'); // Navigate to home page
       };
 
     return (

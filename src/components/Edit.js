@@ -1,8 +1,8 @@
-// Edit.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function Edit({ depenseId }) {
+function Edit({ depenseId, handleClose }) { // Add handleClose prop for closing modal
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [expense, setExpense] = useState(0);
@@ -13,8 +13,8 @@ function Edit({ depenseId }) {
         const token = localStorage.getItem('token');
         const response = await axios.get(`http://127.0.0.1:8000/api/depenses/${depenseId}`, {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
         const { title, description, expense } = response.data.depense;
         setTitle(title);
@@ -46,33 +46,67 @@ function Edit({ depenseId }) {
       const token = localStorage.getItem('token');
       await axios.put(`http://127.0.0.1:8000/api/depenses/${depenseId}`, { title, description, expense }, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       alert('Depense updated successfully!');
+      if (handleClose) handleClose(); // Call handleClose to close modal (if applicable)
     } catch (error) {
       console.error('Depense update failed:', error);
     }
   };
 
   return (
-    <div>
-      <form onSubmit={handleUpdateDepense}>
-        <div>
-          <label htmlFor="title">Title:</label>
-          <input type="text" id="title" name="title" value={title} onChange={handleTitleChange} />
+    <form onSubmit={handleUpdateDepense} className="container d-flex justify-content-center align-items-center vh-100">
+      <div className="card p-5 shadow border-primary" style={{ maxWidth: '800px' }}>
+        <h2 className="text-center mb-4">Edit Expense</h2>
+        <div className="row g-3"> {/* Inner form for layout */}
+          <div className="col-md-12">
+            <label htmlFor="title" className="form-label fs-4">Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              className="form-control form-control-lg"
+              required
+              placeholder="Enter title"
+              value={title}
+              onChange={handleTitleChange}
+            />
+          </div>
+          <div className="col-md-12">
+            <label htmlFor="description" className="form-label fs-4">Description</label>
+            <input
+              type="text"
+              id="description"
+              name="description"
+              className="form-control form-control-lg"
+              placeholder="Enter description (optional)"
+              value={description}
+              onChange={handleDescriptionChange}
+            />
+          </div>
+          <div className="col-md-12">
+            <label htmlFor="expense" className="form-label fs-4">Expense</label>
+            <input
+              type="number"
+              id="expense"
+              name="expense"
+              className="form-control form-control-lg"
+              required
+              placeholder="Enter expense amount"
+              value={expense}
+              onChange={handleExpenseChange}
+            />
+          </div>
+          <div className="col-md-12 d-flex justify-content-between">
+            <button className="btn btn-primary btn-lg" type="submit">
+              Save Changes
+            </button>
+          </div>
         </div>
-        <div>
-          <label htmlFor="description">Description:</label>
-          <input type="text" id="description" name="description" value={description} onChange={handleDescriptionChange} />
-        </div>
-        <div>
-          <label htmlFor="expense">Expense:</label>
-          <input type="number" id="expense" name="expense" value={expense} onChange={handleExpenseChange} />
-        </div>
-        <button type="submit">Save Changes</button>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 }
 

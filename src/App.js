@@ -7,6 +7,7 @@ import Homepage from './components/Homepage';
 import Login from './components/Login';
 import Register from './components/Register';
 import Create from './components/Create';
+import Edit from './components/Edit';
 
 function App() {
     const [depenses, setDepenses] = useState([]);
@@ -42,6 +43,7 @@ function App() {
                     <Route path='/login' element={<Login />} />
                     <Route path='/Create' element={<Create />} />
                     <Route path='/register' element={<Register />} />
+                    <Route path="/expenses/:id/edit" element={<Edit />} />
                 </Routes>
             </div>
         </BrowserRouter>
