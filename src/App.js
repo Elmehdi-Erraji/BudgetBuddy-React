@@ -26,7 +26,6 @@ function App() {
                     }
                 });
                 setDepenses(response.data.depenses);
-                console.log(response.data.depenses);
             } catch (error) {
                 console.error('Error fetching depenses:', error);
             }
@@ -43,7 +42,7 @@ function App() {
                     <Route path='/login' element={<Login />} />
                     <Route path='/Create' element={<Create />} />
                     <Route path='/register' element={<Register />} />
-                    <Route path="/expenses/:id/edit" element={<Edit />} />
+                    <Route path="/expenses/:id" element={<Edit />} />
                 </Routes>
             </div>
         </BrowserRouter>

@@ -86,7 +86,11 @@ function Index() {
                   <td>{depense.description}</td>
                   <td className="text-right">{depense.expense}</td>
                   <td className="text-center">
-                    <Edit depenseId={depense.id} handleClose={closeEditModal} /> {/* Pass handleClose to close modal */}
+                  <Link to={'/expenses/' + depense.id}
+                      className="btn btn-primary btn-sm"
+                    >
+                      Update
+                    </Link>
                     <span style={{ marginRight: '8px' }}></span>
                     <button
                       className="btn btn-danger btn-sm"

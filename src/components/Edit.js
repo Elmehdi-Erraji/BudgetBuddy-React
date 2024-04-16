@@ -1,50 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
-function Edit({ depenseId, handleClose }) { // Add handleClose prop for closing modal
+function Edit({handleClose}) { // Add handleClose prop for closing modal
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [expense, setExpense] = useState(0);
+  const [data, setData] = useState({
+    title: '',
+    description: '',
+    expense: '',
+  });
+  
+
+
+  const {id}=useParams()
+
 
   useEffect(() => {
     async function fetchDepense() {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://127.0.0.1:8000/api/depenses/${depenseId}`, {
+        const response = await axios.get(`http://127.0.0.1:8000/api/depenses/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        const { title, description, expense } = response.data.depense;
-        setTitle(title);
-        setDescription(description);
-        setExpense(expense);
+  
+
+        console.log(response.data)
+        // setTitle(response.data.title);
+        setData(response.data)
       } catch (error) {
         console.error('Error fetching depense:', error);
       }
     }
 
     fetchDepense();
-  }, [depenseId]);
+  }, []);
 
   const handleTitleChange = (e) => {
-    setTitle(e.target.value);
+    setData(prevState => ({
+      ...prevState, 
+      title: e.target.value 
+    }));
   };
 
   const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
+    setData(prevState => ({
+      ...prevState, 
+      description: e.target.value 
+    }));  };
 
   const handleExpenseChange = (e) => {
-    setExpense(e.target.value);
-  };
+    setData(prevState => ({
+      ...prevState, 
+      expense: e.target.value 
+    }));  };
 
+
+    console.log(data)
   const handleUpdateDepense = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://127.0.0.1:8000/api/depenses/${depenseId}`, { title, description, expense }, {
+      await axios.put(`http://127.0.0.1:8000/api/depenses/${id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -70,7 +91,7 @@ function Edit({ depenseId, handleClose }) { // Add handleClose prop for closing 
               className="form-control form-control-lg"
               required
               placeholder="Enter title"
-              value={title}
+              value={data.title}
               onChange={handleTitleChange}
             />
           </div>
@@ -82,7 +103,7 @@ function Edit({ depenseId, handleClose }) { // Add handleClose prop for closing 
               name="description"
               className="form-control form-control-lg"
               placeholder="Enter description (optional)"
-              value={description}
+              value={data.description}
               onChange={handleDescriptionChange}
             />
           </div>
@@ -95,7 +116,7 @@ function Edit({ depenseId, handleClose }) { // Add handleClose prop for closing 
               className="form-control form-control-lg"
               required
               placeholder="Enter expense amount"
-              value={expense}
+              value={data.expense}
               onChange={handleExpenseChange}
             />
           </div>
