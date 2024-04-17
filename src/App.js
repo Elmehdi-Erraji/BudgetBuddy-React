@@ -9,6 +9,8 @@ import Register from './components/Register';
 import Create from './components/Create';
 import Edit from './components/Edit';
 
+//here where i defined all the components and the routes to each and every component
+
 function App() {
     const [depenses, setDepenses] = useState([]);
 
