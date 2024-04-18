@@ -1,66 +1,56 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
-import axios from 'axios';
-import Create from '../Components/Create';
+import { render, fireEvent } from '@testing-library/react';
+import Register from '/src/components/Register'; 
+import { BrowserRouter } from 'react-router-dom';
 
-jest.mock('axios');
+// Mocking useNavigate and alert
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'), 
+  useNavigate: () => jest.fn()
+}));
 
-describe('Create component', () => {
-  it('submits form successfully', async () => {
-    const navigateMock = jest.fn();
-    const localStorageMock = {
-      getItem: jest.fn(() => 'fakeToken')
-    };
-    Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+global.alert = jest.fn(); 
 
-    axios.post.mockResolvedValueOnce({ data: 'fakeResponse' });
-    const { getByLabelText, getByText } = render(<Create />);
-    
-    const titleInput = getByLabelText('Title');
-    const descriptionInput = getByLabelText('Description');
-    const expenseInput = getByLabelText('Expense');
-    const addButton = getByText('Add');
+describe('Register component', () => {
+  it('renders the component and allows form submission with matched passwords', () => {
+    const { getByLabelText, getByText } = render(
+      <BrowserRouter>
+        <Register />
+      </BrowserRouter>
+    );
 
-    fireEvent.change(titleInput, { target: { value: 'Test Title' } });
-    fireEvent.change(descriptionInput, { target: { value: 'Test Description' } });
-    fireEvent.change(expenseInput, { target: { value: '100' } });
-    fireEvent.click(addButton);
+    const nameInput = getByLabelText(/name/i);
+    const emailInput = getByLabelText(/email/i);
+    const passwordInput = getByLabelText(/password/i);
+    const confirmPasswordInput = getByLabelText(/confirm password/i);
+    const submitButton = getByText(/register/i);
 
-    await waitFor(() => {
-      expect(axios.post).toHaveBeenCalledWith(
-        'http://127.0.0.1:8000/api/depenses',
-        {
-          title: 'Test Title',
-          description: 'Test Description',
-          expense: '100'
-        },
-        {
-          headers: {
-            Authorization: 'Bearer fakeToken'
-          }
-        }
-      );
-      expect(alert).toHaveBeenCalledWith('Expense added successfully!');
-    });
+    fireEvent.change(nameInput, { target: { value: 'Test User' } });
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'securepassword' } });
+    fireEvent.change(confirmPasswordInput, { target: { value: 'securepassword' } });
+
+    fireEvent.click(submitButton);
+
+    expect(global.alert).toHaveBeenCalledWith('Registration successful, please log in.');
   });
 
-  it('displays error message on failed form submission', async () => {
-    axios.post.mockRejectedValueOnce({ response: { data: { message: 'Error message' } } });
-    const { getByLabelText, getByText } = render(<Create />);
-    
-    const titleInput = getByLabelText('Title');
-    const descriptionInput = getByLabelText('Description');
-    const expenseInput = getByLabelText('Expense');
-    const addButton = getByText('Add'); // Corrected button text
+  it('shows alert for mismatched passwords', () => {
+    const { getByLabelText, getByText } = render(
+      <BrowserRouter>
+        <Register />
+      </BrowserRouter>
+    );
 
-    fireEvent.change(titleInput, { target: { value: 'Test Title' } });
-    fireEvent.change(descriptionInput, { target: { value: 'Test Description' } });
-    fireEvent.change(expenseInput, { target: { value: '100' } });
-    fireEvent.click(addButton);
+    const passwordInput = getByLabelText(/password/i);
+    const confirmPasswordInput = getByLabelText(/confirm password/i);
+    const submitButton = getByText(/register/i);
 
-    await waitFor(() => {
-      expect(axios.post).toHaveBeenCalled();
-      expect(alert).toHaveBeenCalledWith('Error message');
-    });
+    fireEvent.change(passwordInput, { target: { value: 'securepassword' } });
+    fireEvent.change(confirmPasswordInput, { target: { value: 'differentpassword' } });
+
+    fireEvent.click(submitButton);
+
+    expect(global.alert).toHaveBeenCalledWith('Passwords do not match!');
   });
 });
