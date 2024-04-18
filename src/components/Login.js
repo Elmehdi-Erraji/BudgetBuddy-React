@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from "react";
+import { Link } from 'react-router-dom'; 
 
 
 function Login(){
@@ -67,6 +68,10 @@ function Login(){
             <button className="btn btn-primary btn-lg" type="submit">
               Login
             </button>
+            <p className="mt-3">
+              Don't have an account?{' '}
+              <Link to="/register">Sign Up Here</Link>
+            </p>
           </div>
         </form>
       </div>

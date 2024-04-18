@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from "react";
+import { Link } from 'react-router-dom'; // Import Link for routing
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -97,6 +98,10 @@ function Register() {
             <button className="btn btn-primary btn-lg" type="submit">
               Register
             </button>
+            <p className="mt-3">
+              Aready have an account?{' '}
+              <Link to="/login">Sign in Here</Link>
+            </p>
           </div>
         </form>
       </div>

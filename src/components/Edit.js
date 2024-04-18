@@ -120,11 +120,15 @@ function Edit({handleClose}) { // Add handleClose prop for closing modal
               onChange={handleExpenseChange}
             />
           </div>
-          <div className="col-md-12 d-flex justify-content-between">
-            <button className="btn btn-primary btn-lg" type="submit">
-              Save Changes
-            </button>
-          </div>
+          <div className="col-md-12 d-flex justify-content">
+          <button className="btn btn-primary btn-lg" type="submit">
+            Save Changes
+          </button>
+          <span style={{ marginRight: '12px' }}></span>
+          <button className="btn btn-secondary btn-lg" type="button" onClick={() => window.history.back()}>
+            Go Back
+          </button>
+        </div>
         </div>
       </div>
     </form>

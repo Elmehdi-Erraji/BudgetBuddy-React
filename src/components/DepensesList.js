@@ -1,33 +1,38 @@
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom'; // Import Navigate for redirection
 import Edit from './Edit'; // Import the modal component for editing depenses
 import Create from './Create'; // Import the Create component
+
 function Index() {
   const [depenses, setDepenses] = useState([]);
   const [editDepense, setEditDepense] = useState(null);
 
+  // Check for authentication token in localStorage
+  const isAuthenticated = !!localStorage.getItem('token');
+
   useEffect(() => {
-    async function fetchDepenses() {
+    const fetchDepenses = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          throw new Error('User token not found');
+        if (!isAuthenticated) {
+          return; // Don't fetch data if not authenticated
         }
 
+        const token = localStorage.getItem('token');
         const response = await axios.get('http://127.0.0.1:8000/api/depenses', {
           headers: {
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           }
         });
         setDepenses(response.data.depenses);
       } catch (error) {
         console.error('Error fetching depenses:', error);
       }
-    }
+    };
 
     fetchDepenses();
-  }, []);
+  }, [isAuthenticated]);
 
   const handleDelete = async (id) => {
     try {
@@ -59,9 +64,9 @@ function Index() {
   const closeEditModal = () => {
     setEditDepense(null); // Function to close the edit modal
   };
-
   return (
-    <div className="card mt-4">
+    isAuthenticated ? (
+      <div className="card mt-4">
       <div className="card-header">
         <h4 className="card-title">Depenses</h4>
       </div>
@@ -109,6 +114,9 @@ function Index() {
         <Edit depenseId={editDepense.id} handleClose={closeEditModal} />
       )}
     </div>
+    ) : (
+      <Navigate to="/login" replace /> // Redirect to login on unauthorized access
+    )
   );
 }
 

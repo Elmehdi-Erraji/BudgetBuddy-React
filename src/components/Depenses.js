@@ -8,7 +8,6 @@ function Depenses() {
     const handleLogout = async () => {
         try {
             localStorage.removeItem('token'); // Remove token from local storage
-            // Redirect to login page
             navigate('/login');
             alert('Logout successful');
         } catch (error) {
@@ -27,9 +26,6 @@ function Depenses() {
                     </div>
                 </div>
             </div>
-
-
-
     );
 }
 
